@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>أسئلة برمجية في لغة C++</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/js/all.min.js"></script>
+    <style>
+        body { 
+            background-color: #f8f9fa; 
+            font-family: Arial, sans-serif; 
+            text-align: right; 
+        }
+        .quiz-container { 
+            max-width: 700px; 
+            margin: 50px auto; 
+            text-align: center; 
+            padding: 20px; 
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1); 
+            border-radius: 10px; 
+            background: white; 
+        }
+        .code-box { 
+            background: #222; 
+            color: #fff; 
+            padding: 15px; 
+            border-radius: 8px; 
+            text-align: left; 
+            font-family: monospace; 
+            direction: ltr; 
+        }
+        .hidden { display: none; }
+        .success { 
+            color: green; 
+            font-size: 20px; 
+            font-weight: bold; 
+            animation: bounce 0.5s ease-in-out; 
+        }
+        .wrong { 
+            color: red; 
+            font-size: 20px; 
+            font-weight: bold; 
+            animation: shake 0.5s ease-in-out; 
+        }
+        .hint-btn { 
+            cursor: pointer; 
+            font-size: 20px; 
+            margin-left: 10px; 
+            color: #f39c12; 
+        }
+        .hint-btn:hover { color: #e67e22; }
+        button { 
+            transition: all 0.3s ease-in-out; 
+            border-radius: 8px; 
+            margin: 5px 0; 
+        }
+        button:hover { transform: scale(1.05); box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2); }
+        @keyframes bounce { 
+            0%, 100% { transform: translateY(0); } 
+            50% { transform: translateY(-10px); } 
+        }
+        @keyframes shake { 
+            0%, 100% { transform: translateX(0); } 
+            25% { transform: translateX(-5px); } 
+            50% { transform: translateX(5px); } 
+            75% { transform: translateX(-5px); } 
+        }
+    </style>
+</head>
+<body>
+    <div class="quiz-container">
+        <h2 id="question" class="mb-4"></h2>
+        <i class="fas fa-lightbulb hint-btn" onclick="showHint()"></i>
+        <p id="hint" class="hidden mt-2 text-muted"></p>
+        <div class="code-box" id="code-snippet"></div>
+        <div id="options" class="d-grid gap-2 mt-3"></div>
+        <p id="feedback" class="mt-3"></p>
+    </div>
+
+    <script>
+        const questions = [
+            {
+                question: "ما هو الخطأ في الكود التالي؟",
+                code: `#include <iostream>\nusing namespace std;\n\nint main() {\n    int x = 10;\n    cout << "القيمة هي: " << x\n    return 0;\n}`,
+                options: [
+                    "#include <iostream> غير صحيحة.",
+                    "using namespace std; غير ضرورية.",
+                    "int x = 10; يجب أن تكون float x = 10;.",
+                    "cout غير معرّف.",
+                    "ناقص ; بعد cout.",
+                    "return 0; غير صحيحة."
+                ],
+                correct: 4,
+                hint: "انتبه إلى علامات الترقيم في نهاية السطر."
+            },
+            {
+                question: "ما هو الخطأ في الكود التالي؟",
+                code: `#include <iostream>\nusing namespace std;\n\nint main() {\n    int x = 5;\n    if (x = 10) {\n        cout << "x تساوي 10";\n    }\n    return 0;\n}`,
+                options: [
+                    "if (x = 10) يجب أن تكون if (x == 10).",
+                    "int x = 5; يجب أن تكون double x = 5;.",
+                    "cout غير معرف.",
+                    "يجب إضافة else بعد if.",
+                    "يجب وضع ; بعد if.",
+                    "return 0; غير صحيحة."
+                ],
+                correct: 0,
+                hint: "انتبه إلى العامل المستخدم في المقارنة."
+            },
+            {
+                question: "ما هو الخطأ في الكود التالي؟",
+                code: `#include <iostream>\nusing namespace std;\n\nint main() {\n    int x = 5;\n    while (x > 0) {\n        cout << x << endl;\n        x--;\n    }\n    return 0;\n}`,
+                options: [
+                    "int x = 5; يجب أن تكون float x = 5;.",
+                    "while (x > 0) يجب أن تكون while (x >= 0).",
+                    "cout غير معرف.",
+                    "x-- يجب أن تكون x++.",
+                    "يجب استخدام do-while بدلاً من while.",
+                    "return 0; غير صحيحة."
+                ],
+                correct: 1,
+                hint: "انتبه إلى شرط التكرار."
+            },
+            {
+                question: "ما هو الخطأ في الكود التالي؟",
+                code: `#include <iostream>\nusing namespace std;\n\nint main() {\n    int x = 5;\n    for (int i = 0; i < x; i++) {\n        cout << i << endl;\n    }\n    return 0;\n}`,
+                options: [
+                    "return 0; غير صحيحة.",
+                    "int x = 5; يجب أن تكون double x = 5;.",
+                    "cout غير معرف.",
+                    "i++ يجب أن تكون i--.",
+                    "for (int i = 0; i < x; i++) يجب أن تكون for (int i = 1; i <= x; i++).",
+                    "يجب وضع ; بعد for."
+                ],
+                correct: 4,
+                hint: "انتبه إلى بداية ونهاية العداد في الحلقة."
+            },
+            {
+                question: "ما هو الخطأ في الكود التالي؟",
+                code: `#include <iostream>\nusing namespace std;\n\nint main() {\n    int x = 5;\n    if (x > 10) {\n        cout << "x أكبر من 10";\n    } else {\n        cout << "x أصغر من أو تساوي 10";\n    }\n    return 0;\n}`,
+                options: [
+                    "يجب وضع ; بعد if.",
+                    "cout غير معرف.",
+                    "يجب إضافة else if.",
+                    "return 0; غير صحيحة.",
+                    "int x = 5; يجب أن تكون float x = 5;.",
+                    "if (x > 10) يجب أن تكون if (x < 10)"
+                ],
+                correct: 5,
+                hint: "انتبه إلى الشرط المنطقي."
+            },
+            {
+                question: "ما هو الخطأ في الكود التالي؟",
+                code: `#include <iostream>\nusing namespace std;\n\nint main() {\n    int x = 5;\n    do {\n        cout << x << endl;\n        x--;\n    } while (x > 0);\n    return 0;\n}`,
+                options: [
+                    "ناقص ; بعد cout.",
+                    "int x = 5; يجب أن تكون float x = 5;.",
+                    "cout غير معرّف.",
+                    "do يجب أن تكون while.",
+                    "return 0; غير صحيحة.",
+                    "#include <iostream> غير صحيحة."
+                ],
+                correct: 3,
+                hint: "انتبه إلى نوع الحلقة المستخدمة."
+            }
+        ];
+
+        let currentQuestion = 0;
+        const questionElem = document.getElementById("question");
+        const codeSnippetElem = document.getElementById("code-snippet");
+        const optionsElem = document.getElementById("options");
+        const feedbackElem = document.getElementById("feedback");
+        const hintElem = document.getElementById("hint");
+
+        function loadQuestion() {
+            if (currentQuestion >= questions.length) {
+                questionElem.innerText = "تم الانتهاء من الاختبار!";
+                codeSnippetElem.innerHTML = "";
+                optionsElem.innerHTML = "";
+                hintElem.classList.add("hidden");
+                return;
+            }
+            const q = questions[currentQuestion];
+            questionElem.innerText = q.question;
+            codeSnippetElem.innerHTML = `<pre>${q.code}</pre>`;
+            hintElem.innerText = q.hint;
+            hintElem.classList.add("hidden");
+            optionsElem.innerHTML = "";
+            q.options.forEach((option, index) => {
+                const btn = document.createElement("button");
+                btn.className = "btn btn-primary p-2 shadow-lg";
+                btn.innerText = option;
+                btn.onclick = () => checkAnswer(index, q.correct);
+                optionsElem.appendChild(btn);
+            });
+        }
+
+        function checkAnswer(selected, correct) {
+            if (selected === correct) {
+                feedbackElem.innerHTML = "✅ <span class='success'>إجابة صحيحة!</span>";
+            } else {
+                feedbackElem.innerHTML = "❌ <span class='wrong'>إجابة خاطئة!</span>";
+            }
+            setTimeout(() => {
+                feedbackElem.innerHTML = ""; // إخفاء الرسالة بعد ثانية
+                if (selected === correct) {
+                    currentQuestion++;
+                    loadQuestion();
+                }
+            }, 1000); // الرسالة تختفي بعد 1000 مللي ثانية (ثانية واحدة)
+        }
+
+        function showHint() {
+            hintElem.classList.toggle("hidden");
+        }
+
+        loadQuestion();
+    </script>
+</body>
+</html>
