@@ -64,6 +64,27 @@
         #resetBtn { 
             margin-top: 10px; 
         }
+        /* إعدادات زر إعادة الامتحان */
+        #resetBtn { 
+            margin-top: 10px; 
+        }
+        /* إعدادات زر إعادة الامتحان ليكون شفاف تماماً */
+        .btn-success {
+            background-color: transparent;
+            color: transparent;
+            border: none;
+            padding: 10px 20px; /* لضمان مساحة كافية للكليك */
+            cursor:pointer;
+        }
+        .btn-success:hover,
+        .btn-success:active,
+        .btn-success:focus {
+            background-color: transparent;
+            color: transparent;
+            border: none;
+            box-shadow: none; /* إزالة أي ظل عند الهوفر */
+            outline: none; /* إزالة الخطوط عند التركيز */
+        }
         @keyframes bounce { 
             0%, 100% { transform: translateY(0); } 
             50% { transform: translateY(-10px); } 
