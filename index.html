@@ -56,6 +56,11 @@
             margin: 5px 0; 
         }
         button:hover { transform: scale(1.05); box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2); }
+        .hearts { 
+            font-size: 24px; 
+            color: red; 
+            margin-bottom: 10px; 
+        }
         @keyframes bounce { 
             0%, 100% { transform: translateY(0); } 
             50% { transform: translateY(-10px); } 
@@ -70,6 +75,7 @@
 </head>
 <body>
     <div class="quiz-container">
+        <div id="hearts" class="hearts">❤️❤️❤️</div> <!-- عرض القلوب -->
         <h2 id="question" class="mb-4"></h2>
         <i class="fas fa-lightbulb hint-btn" onclick="showHint()"></i>
         <p id="hint" class="hidden mt-2 text-muted"></p>
@@ -79,8 +85,8 @@
     </div>
 
     <script>
-        const questions = [
-            {
+        const questions = [  
+        {
                 question: "What is the output of the following code?",
                 code: `#include <iostream>\nusing namespace std;\nint main() {\n    int arr[] = {1, 2, 3, 4, 5};\n    cout << arr[3];\n    return 0;\n}`,
                 options: [
@@ -299,20 +305,62 @@
         ];
 
         let currentQuestion = 0;
+        let lives = 3; // عدد القلوب (الحيوات)
+        const myDeviceId = "myDevice123"; // معرف جهازك الخاص (غيره حسب طريقتك)
+
         const questionElem = document.getElementById("question");
         const codeSnippetElem = document.getElementById("code-snippet");
         const optionsElem = document.getElementById("options");
         const feedbackElem = document.getElementById("feedback");
         const hintElem = document.getElementById("hint");
+        const heartsElem = document.getElementById("hearts");
 
-        function loadQuestion() {
-            if (currentQuestion >= questions.length) {
-                questionElem.innerText = "Test completed!";
+        // التحقق من الجهاز
+        function checkDeviceAccess() {
+            let deviceId = localStorage.getItem("examDeviceId");
+
+            // لو الجهاز هو جهازك الخاص، يدخل براحته دايماً
+            if (deviceId === myDeviceId) {
+                lives = 3; // نضمن إن القلوب دايماً 3 لجهازك
+                return true;
+            }
+
+            // لو مفيش معرف مخزن، نولد واحد جديد
+            if (!deviceId) {
+                deviceId = Math.random().toString(36).substring(2) + Date.now().toString(36);
+                localStorage.setItem("examDeviceId", deviceId);
+                return true;
+            }
+
+            // لو الجهاز مش جهازك ومسجل قبل كده وخسر القلوب، يتمنع
+            if (lives <= 0) {
+                questionElem.innerText = "عذرًا، لا يمكنك الدخول للامتحان مرة أخرى!";
                 codeSnippetElem.innerHTML = "";
                 optionsElem.innerHTML = "";
                 hintElem.classList.add("hidden");
+                heartsElem.innerHTML = "";
+                return false;
+            }
+
+            return true;
+        }
+
+        function updateHearts() {
+            heartsElem.innerHTML = "❤️".repeat(lives); // تحديث عدد القلوب المعروضة
+        }
+
+        function loadQuestion() {
+            if (!checkDeviceAccess()) return; // التحقق من الوصول
+
+            if (currentQuestion >= questions.length) {
+                questionElem.innerText = "تم الانتهاء من الاختبار!";
+                codeSnippetElem.innerHTML = "";
+                optionsElem.innerHTML = "";
+                hintElem.classList.add("hidden");
+                heartsElem.innerHTML = "";
                 return;
             }
+
             const q = questions[currentQuestion];
             questionElem.innerText = q.question;
             codeSnippetElem.innerHTML = `<pre>${q.code}</pre>`;
@@ -326,21 +374,55 @@
                 btn.onclick = () => checkAnswer(index, q.correct);
                 optionsElem.appendChild(btn);
             });
+            updateHearts(); // تحديث عرض القلوب
         }
 
         function checkAnswer(selected, correct) {
-            if (selected === correct) {
-                feedbackElem.innerHTML = "✅ <span class='success'>Correct answer!</span>";
-            } else {
-                feedbackElem.innerHTML = "❌ <span class='wrong'>Wrong answer!</span>";
-            }
-            setTimeout(() => {
-                feedbackElem.innerHTML = ""; // Hide the message after 1 second
+            const deviceId = localStorage.getItem("examDeviceId");
+
+            // لو الجهاز هو جهازك الخاص، ما ننقصش القلوب
+            if (deviceId === myDeviceId) {
                 if (selected === correct) {
-                    currentQuestion++;
-                    loadQuestion();
+                    feedbackElem.innerHTML = "✅ <span class='success'>إجابة صحيحة!</span>";
+                    setTimeout(() => {
+                        feedbackElem.innerHTML = "";
+                        currentQuestion++;
+                        loadQuestion();
+                    }, 1000);
+                } else {
+                    feedbackElem.innerHTML = "❌ <span class='wrong'>إجابة خاطئة!</span>";
+                    setTimeout(() => {
+                        feedbackElem.innerHTML = "";
+                        loadQuestion();
+                    }, 1000);
                 }
-            }, 1000); // The message disappears after 1000 milliseconds (1 second)
+            } else {
+                // باقي الأجهزة
+                if (selected === correct) {
+                    feedbackElem.innerHTML = "✅ <span class='success'>إجابة صحيحة!</span>";
+                    setTimeout(() => {
+                        feedbackElem.innerHTML = "";
+                        currentQuestion++;
+                        loadQuestion();
+                    }, 1000);
+                } else {
+                    lives--; // تقليل عدد القلوب
+                    feedbackElem.innerHTML = "❌ <span class='wrong'>إجابة خاطئة!</span>";
+                    setTimeout(() => {
+                        feedbackElem.innerHTML = "";
+                        loadQuestion();
+                    }, 1000);
+                }
+            }
+        }
+
+        function endExamDueToLives() {
+            questionElem.innerText = "تم إغلاق الامتحان بسبب نفاد الحيوات!";
+            codeSnippetElem.innerHTML = "";
+            optionsElem.innerHTML = "";
+            hintElem.classList.add("hidden");
+            heartsElem.innerHTML = "";
+            localStorage.setItem("examDeviceId", Math.random().toString(36).substring(2) + Date.now().toString(36)); // ضمان منع الدخول مرة أخرى
         }
 
         function showHint() {
