@@ -61,6 +61,9 @@
             color: red; 
             margin-bottom: 10px; 
         }
+        #resetBtn { 
+            margin-top: 10px; 
+        }
         @keyframes bounce { 
             0%, 100% { transform: translateY(0); } 
             50% { transform: translateY(-10px); } 
@@ -82,6 +85,7 @@
         <div class="code-box" id="code-snippet"></div>
         <div id="options" class="d-grid gap-2 mt-3"></div>
         <p id="feedback" class="mt-3"></p>
+        <button id="resetBtn" class="btn btn-success hidden" onclick="resetExam()">إعادة الامتحان</button>
     </div>
 
     <script>
@@ -306,7 +310,7 @@
 
         let currentQuestion = 0;
         let lives = 3; // عدد القلوب (الحيوات)
-        const myDeviceId = "myDevice123"; // معرف جهازك الخاص (غيره حسب طريقتك)
+        let hintClickCount = 0; // عداد الضغط على اللمبة
 
         const questionElem = document.getElementById("question");
         const codeSnippetElem = document.getElementById("code-snippet");
@@ -314,31 +318,27 @@
         const feedbackElem = document.getElementById("feedback");
         const hintElem = document.getElementById("hint");
         const heartsElem = document.getElementById("hearts");
+        const resetBtn = document.getElementById("resetBtn");
 
         // التحقق من الجهاز
         function checkDeviceAccess() {
-            let deviceId = localStorage.getItem("examDeviceId");
+            const deviceId = localStorage.getItem("examDeviceId");
 
-            // لو الجهاز هو جهازك الخاص، يدخل براحته دايماً
-            if (deviceId === myDeviceId) {
-                lives = 3; // نضمن إن القلوب دايماً 3 لجهازك
-                return true;
-            }
-
-            // لو مفيش معرف مخزن، نولد واحد جديد
+            // لو مفيش معرف مخزن، نولد واحد جديد ونسمح بالدخول
             if (!deviceId) {
-                deviceId = Math.random().toString(36).substring(2) + Date.now().toString(36);
-                localStorage.setItem("examDeviceId", deviceId);
+                const uniqueId = Math.random().toString(36).substring(2) + Date.now().toString(36);
+                localStorage.setItem("examDeviceId", uniqueId);
                 return true;
             }
 
-            // لو الجهاز مش جهازك ومسجل قبل كده وخسر القلوب، يتمنع
-            if (lives <= 0) {
+            // لو الجهاز مسجل قبل كده وخسر القلوب، يتمنع
+            if (localStorage.getItem("examCompleted") === "true") {
                 questionElem.innerText = "عذرًا، لا يمكنك الدخول للامتحان مرة أخرى!";
                 codeSnippetElem.innerHTML = "";
                 optionsElem.innerHTML = "";
                 hintElem.classList.add("hidden");
                 heartsElem.innerHTML = "";
+                resetBtn.classList.add("hidden");
                 return false;
             }
 
@@ -352,12 +352,18 @@
         function loadQuestion() {
             if (!checkDeviceAccess()) return; // التحقق من الوصول
 
+            if (lives <= 0) {
+                endExamDueToLives();
+                return;
+            }
+
             if (currentQuestion >= questions.length) {
                 questionElem.innerText = "تم الانتهاء من الاختبار!";
                 codeSnippetElem.innerHTML = "";
                 optionsElem.innerHTML = "";
                 hintElem.classList.add("hidden");
                 heartsElem.innerHTML = "";
+                resetBtn.classList.add("hidden");
                 return;
             }
 
@@ -378,41 +384,20 @@
         }
 
         function checkAnswer(selected, correct) {
-            const deviceId = localStorage.getItem("examDeviceId");
-
-            // لو الجهاز هو جهازك الخاص، ما ننقصش القلوب
-            if (deviceId === myDeviceId) {
-                if (selected === correct) {
-                    feedbackElem.innerHTML = "✅ <span class='success'>إجابة صحيحة!</span>";
-                    setTimeout(() => {
-                        feedbackElem.innerHTML = "";
-                        currentQuestion++;
-                        loadQuestion();
-                    }, 1000);
-                } else {
-                    feedbackElem.innerHTML = "❌ <span class='wrong'>إجابة خاطئة!</span>";
-                    setTimeout(() => {
-                        feedbackElem.innerHTML = "";
-                        loadQuestion();
-                    }, 1000);
-                }
+            if (selected === correct) {
+                feedbackElem.innerHTML = "✅ <span class='success'>إجابة صحيحة!</span>";
+                setTimeout(() => {
+                    feedbackElem.innerHTML = "";
+                    currentQuestion++;
+                    loadQuestion();
+                }, 1000);
             } else {
-                // باقي الأجهزة
-                if (selected === correct) {
-                    feedbackElem.innerHTML = "✅ <span class='success'>إجابة صحيحة!</span>";
-                    setTimeout(() => {
-                        feedbackElem.innerHTML = "";
-                        currentQuestion++;
-                        loadQuestion();
-                    }, 1000);
-                } else {
-                    lives--; // تقليل عدد القلوب
-                    feedbackElem.innerHTML = "❌ <span class='wrong'>إجابة خاطئة!</span>";
-                    setTimeout(() => {
-                        feedbackElem.innerHTML = "";
-                        loadQuestion();
-                    }, 1000);
-                }
+                lives--; // تقليل عدد القلوب
+                feedbackElem.innerHTML = "❌ <span class='wrong'>إجابة خاطئة!</span>";
+                setTimeout(() => {
+                    feedbackElem.innerHTML = "";
+                    loadQuestion();
+                }, 1000);
             }
         }
 
@@ -422,11 +407,25 @@
             optionsElem.innerHTML = "";
             hintElem.classList.add("hidden");
             heartsElem.innerHTML = "";
-            localStorage.setItem("examDeviceId", Math.random().toString(36).substring(2) + Date.now().toString(36)); // ضمان منع الدخول مرة أخرى
+            localStorage.setItem("examCompleted", "true"); // تسجيل إن الامتحان خلّص
+            resetBtn.classList.remove("hidden"); // إظهار زر الإعادة بعد الضغط على اللمبة 3 مرات
         }
 
         function showHint() {
             hintElem.classList.toggle("hidden");
+            hintClickCount++; // زيادة العداد
+            if (hintClickCount === 3) {
+                resetBtn.classList.remove("hidden"); // إظهار زر الإعادة بعد 3 ضغطات
+            }
+        }
+
+        function resetExam() {
+            lives = 3; // إعادة القلوب
+            currentQuestion = 0; // إعادة الأسئلة من البداية
+            localStorage.removeItem("examCompleted"); // حذف حالة المنع
+            resetBtn.classList.add("hidden"); // إخفاء الزر مرة أخرى
+            hintClickCount = 0; // تصفير عداد اللمبة
+            loadQuestion(); // تحميل الامتحان من جديد
         }
 
         loadQuestion();
