@@ -1,16 +1,16 @@
 <!DOCTYPE html>
-<html lang="ar" dir="rtl">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>أسئلة برمجية في لغة C++</title>
+    <title>C++ Programming Questions</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/js/all.min.js"></script>
     <style>
         body { 
             background-color: #f8f9fa; 
             font-family: Arial, sans-serif; 
-            text-align: right; 
+            text-align: left; 
         }
         .quiz-container { 
             max-width: 700px; 
@@ -81,88 +81,220 @@
     <script>
         const questions = [
             {
-                question: "ما هو الخطأ في الكود التالي؟",
-                code: `#include <iostream>\nusing namespace std;\n\nint main() {\n    int x = 10;\n    cout << "القيمة هي: " << x\n    return 0;\n}`,
+                question: "What is the output of the following code?",
+                code: `#include <iostream>\nusing namespace std;\nint main() {\n    int arr[] = {1, 2, 3, 4, 5};\n    cout << arr[3];\n    return 0;\n}`,
                 options: [
-                    "#include <iostream> غير صحيحة.",
-                    "using namespace std; غير ضرورية.",
-                    "int x = 10; يجب أن تكون float x = 10;.",
-                    "cout غير معرّف.",
-                    "ناقص ; بعد cout.",
-                    "return 0; غير صحيحة."
-                ],
-                correct: 4,
-                hint: "انتبه إلى علامات الترقيم في نهاية السطر."
-            },
-            {
-                question: "ما هو الخطأ في الكود التالي؟",
-                code: `#include <iostream>\nusing namespace std;\n\nint main() {\n    int x = 5;\n    if (x = 10) {\n        cout << "x تساوي 10";\n    }\n    return 0;\n}`,
-                options: [
-                    "if (x = 10) يجب أن تكون if (x == 10).",
-                    "int x = 5; يجب أن تكون double x = 5;.",
-                    "cout غير معرف.",
-                    "يجب إضافة else بعد if.",
-                    "يجب وضع ; بعد if.",
-                    "return 0; غير صحيحة."
-                ],
-                correct: 0,
-                hint: "انتبه إلى العامل المستخدم في المقارنة."
-            },
-            {
-                question: "ما هو الخطأ في الكود التالي؟",
-                code: `#include <iostream>\nusing namespace std;\n\nint main() {\n    int x = 5;\n    while (x > 0) {\n        cout << x << endl;\n        x--;\n    }\n    return 0;\n}`,
-                options: [
-                    "int x = 5; يجب أن تكون float x = 5;.",
-                    "while (x > 0) يجب أن تكون while (x >= 0).",
-                    "cout غير معرف.",
-                    "x-- يجب أن تكون x++.",
-                    "يجب استخدام do-while بدلاً من while.",
-                    "return 0; غير صحيحة."
-                ],
-                correct: 1,
-                hint: "انتبه إلى شرط التكرار."
-            },
-            {
-                question: "ما هو الخطأ في الكود التالي؟",
-                code: `#include <iostream>\nusing namespace std;\n\nint main() {\n    int x = 5;\n    for (int i = 0; i < x; i++) {\n        cout << i << endl;\n    }\n    return 0;\n}`,
-                options: [
-                    "return 0; غير صحيحة.",
-                    "int x = 5; يجب أن تكون double x = 5;.",
-                    "cout غير معرف.",
-                    "i++ يجب أن تكون i--.",
-                    "for (int i = 0; i < x; i++) يجب أن تكون for (int i = 1; i <= x; i++).",
-                    "يجب وضع ; بعد for."
-                ],
-                correct: 4,
-                hint: "انتبه إلى بداية ونهاية العداد في الحلقة."
-            },
-            {
-                question: "ما هو الخطأ في الكود التالي؟",
-                code: `#include <iostream>\nusing namespace std;\n\nint main() {\n    int x = 5;\n    if (x > 10) {\n        cout << "x أكبر من 10";\n    } else {\n        cout << "x أصغر من أو تساوي 10";\n    }\n    return 0;\n}`,
-                options: [
-                    "يجب وضع ; بعد if.",
-                    "cout غير معرف.",
-                    "يجب إضافة else if.",
-                    "return 0; غير صحيحة.",
-                    "int x = 5; يجب أن تكون float x = 5;.",
-                    "if (x > 10) يجب أن تكون if (x < 10)"
-                ],
-                correct: 5,
-                hint: "انتبه إلى الشرط المنطقي."
-            },
-            {
-                question: "ما هو الخطأ في الكود التالي؟",
-                code: `#include <iostream>\nusing namespace std;\n\nint main() {\n    int x = 5;\n    do {\n        cout << x << endl;\n        x--;\n    } while (x > 0);\n    return 0;\n}`,
-                options: [
-                    "ناقص ; بعد cout.",
-                    "int x = 5; يجب أن تكون float x = 5;.",
-                    "cout غير معرّف.",
-                    "do يجب أن تكون while.",
-                    "return 0; غير صحيحة.",
-                    "#include <iostream> غير صحيحة."
+                    "1",
+                    "2",
+                    "3",
+                    "4",
+                    "5"
                 ],
                 correct: 3,
-                hint: "انتبه إلى نوع الحلقة المستخدمة."
+                hint: "Pay attention to the index being accessed in the array."
+            },
+            {
+                question: "What is the error in the following code?",
+                code: `#include <iostream>\nusing namespace std;\nint main() {\n    int a = 5;\n    cout << "The value of a is: " << a << endl\n    return 0;\n}`,
+                options: [
+                    "int a = 5; should be float a = 5;.",
+                    "cout is not defined.",
+                    "Missing ; after cout.",
+                    "return 0; is incorrect.",
+                    "cin is not defined."
+                ],
+                correct: 2,
+                hint: "Pay attention to the punctuation at the end of the line."
+            },
+            {
+                question: "What is the error in the following code?",
+                code: `#include <iostream>\nusing namespace std;\nvoid func() {\n    cout << "Hello";\n}\nint main() {\n    func;\n    return 0;\n}`,
+                options: [
+                    "func should be func().",
+                    "cout is not defined.",
+                    "void func() should be int func().",
+                    "return 0; is incorrect.",
+                    "cin is not defined."
+                ],
+                correct: 0,
+                hint: "Pay attention to how the function is called."
+            },
+            {
+                question: "What is the output of the following code?",
+                code: `#include <iostream>\nusing namespace std;\nint main() {\n    int x = 3, y = 2;\n    cout << x / y * 2;\n    return 0;\n}`,
+                options: [
+                    "1",
+                    "2",
+                    "3",
+                    "4",
+                    "5"
+                ],
+                correct: 1,
+                hint: "Pay attention to the order of arithmetic operations."
+            },
+            {
+                question: "What is the error in the following code?",
+                code: `#include <iostream>\nusing namespace std;\nint main() {\n    int arr[3] = {1, 2, 3, 4};\n    cout << arr[2];\n    return 0;\n}`,
+                options: [
+                    "cout is not defined.",
+                    "int arr[3] should be float arr[3].",
+                    "return 0; is incorrect.",
+                    "cin is not defined.",
+                    "The array has more elements than declared."
+                ],
+                correct: 4,
+                hint: "Pay attention to the declared size of the array."
+            },
+            {
+                question: "What is the error in the following code?",
+                code: `#include <iostream>\nusing namespace std;\nint main() {\n    int x;\n    cin >> x;\n    cout << "You entered: " x;\n    return 0;\n}`,
+                options: [
+                    "Missing << after cout.",
+                    "cin is not defined.",
+                    "int x should be float x.",
+                    "return 0; is incorrect."
+                ],
+                correct: 0,
+                hint: "Pay attention to how cout is used."
+            },
+            {
+                question: "What is the error in the following code?",
+                code: `#include <iostream>\nusing namespace std;\n\nvoid showMessage() {\n    cout << "Hello";\n}\n\nint main() {\n    showMessage();\n    return "Done";\n}`,
+                options: [
+                    "cout is not defined.",
+                    "void showMessage() should be int showMessage().",
+                    "showMessage() should be showMessage;.",
+                    "return should be return 0;.",
+                    "cin is not defined."
+                ],
+                correct: 3,
+                hint: "Pay attention to the return type of the main function."
+            },
+            {
+                question: "What is the output of the following code?",
+                code: `#include <iostream>\nusing namespace std;\nint main() {\n    int a = 10, b = 3;\n    cout << a % b;\n    return 0;\n}`,
+                options: [
+                    "0",
+                    "1",
+                    "2",
+                    "3",
+                    "4"
+                ],
+                correct: 1,
+                hint: "Pay attention to the modulus operation."
+            },
+            {
+                question: "What is the output of the following code?",
+                code: `#include <iostream>\nusing namespace std;\nint main() {\n    int x = 5;\n    cout<<x<<" ";\n    x++;\n    cout << ++x<<" "<<x++<<" "<<x;\n    return 0;\n}`,
+                options: [
+                    "5 7 7 7",
+                    "5 6 6 7",
+                    "5 6 7 8",
+                    "5 7 7 8",
+                    "5 7 8 8"
+                ],
+                correct: 3,
+                hint: "Pay attention to the order of increment operations."
+            },
+            {
+                question: "What is the output of the following code?",
+                code: `#include <iostream>\nusing namespace std;\nint main() {\n    int x = 10;\n    cout << (x == 10);\n    return 0;\n}`,
+                options: [
+                    "0",
+                    "1",
+                    "10"
+                ],
+                correct: 1,
+                hint: "Pay attention to the result of the logical comparison."
+            },
+            {
+                question: "What is the output of the following code?",
+                code: `#include <iostream>\nusing namespace std;\nint main() {\n    int arr[] = {1, 2, 3, 4, 5};\n    cout << arr[3];\n    return 0;\n}`,
+                options: [
+                    "1",
+                    "2",
+                    "3",
+                    "4",
+                    "5"
+                ],
+                correct: 3,
+                hint: "Pay attention to the index being accessed in the array."
+            },
+            {
+                question: "Complete the following code with the appropriate type?",
+                code: `#include <iostream>\nusing namespace std;\nint main() {\n    ______ name = "John";\n    cout << name;\n    return 0;\n}`,
+                options: [
+                    "char",
+                    "string",
+                    "int",
+                    "text"
+                ],
+                correct: 1,
+                hint: "Pay attention to the appropriate data type for storing text."
+            },
+            {
+                question: "Complete the code to create a function that prints 'Welcome'?",
+                code: `#include <iostream>\nusing namespace std;\n    welcome()\n    {\n    cout << "Welcome";\n    }`,
+                options: [
+                    "int",
+                    "string",
+                    "void",
+                    "char"
+                ],
+                correct: 2,
+                hint: "Pay attention to the function type that does not return a value."
+            },
+            {
+                question: "What is the output of the following code?",
+                code: `#include <iostream>\nusing namespace std;\n\nvoid mostafa(int &x) {\n    x = 10;\n}\n\nint main() {\n    int a = 5;\n    mostafa(a);\n    cout << a;\n    return 0;\n}`,
+                options: [
+                    "5",
+                    "10",
+                    "15",
+                    "20",
+                    "25"
+                ],
+                correct: 1,
+                hint: "Pay attention to how the variable is passed by reference."
+            },
+            {
+                question: "What is the output of the following code?",
+                code: `#include <iostream>\nusing namespace std;\nint main() {\n    int arr[] = {1, 3, 5, 7, 9};\n    for (int i = 1; i < 5; i += 2) {\n    arr[i] = arr[i - 1] + arr[i + 1];\n    }\n    for (int i = 0; i < 5; i++) {\n    cout << arr[i] << " ";\n    }\n    return 0;\n}`,
+                options: [
+                    "1 3 5 7 9",
+                    "1 6 5 7 9",
+                    "1 3 5 16 9",
+                    "1 6 5 14 9",
+                    "1 6 5 16 9"
+                ],
+                correct: 3,
+                hint: "Pay attention to how the array elements are modified within the loop."
+            },
+            {
+                question: "What is the output of the following code?",
+                code: `#include <iostream>\nusing namespace std;\nint main() {\n    for (int i = 0, j = 10; i < j; i++, j--) {\n    cout << i << " " << j << " ";\n    }\n    return 0;\n}`,
+                options: [
+                    "0 10 1 9 2 8 3 7 4 6 5 5",
+                    "0 10 1 9 2 8 3 7 4 6 5 5 6 4",
+                    "0 10 1 9 2 8 3 7 4 6",
+                    "0 10 1 9 2 8 3 7 4 6 5 5 6 4 7 3",
+                    "0 10 1 9 2 8 3 7 4 6 5 5 6 4 7 3 8 2"
+                ],
+                correct: 2,
+                hint: "Pay attention to how the loop works and updates the variables."
+            },
+            {
+                question: "What is the output of the following code?",
+                code: `#include <iostream>\nusing namespace std;\nint main() {\n    int arr[4] = {1, 2, 3, 4};\n    for (int i = 0; i < 4; i++) {\n    arr[i] = arr[(i + 1) % 4];\n    }\n    for (int i = 0; i < 4; i++) {\n    cout << arr[i] << " ";\n    }\n    return 0;\n}`,
+                options: [
+                    "1 2 3 4",
+                    "4 1 2 3",
+                    "3 4 1 2",
+                    "2 3 4 0",
+                    "1 3 2 4"
+                ],
+                correct: 3,
+                hint: "Pay attention to how the array elements are modified within the loop."
             }
         ];
 
@@ -175,7 +307,7 @@
 
         function loadQuestion() {
             if (currentQuestion >= questions.length) {
-                questionElem.innerText = "تم الانتهاء من الاختبار!";
+                questionElem.innerText = "Test completed!";
                 codeSnippetElem.innerHTML = "";
                 optionsElem.innerHTML = "";
                 hintElem.classList.add("hidden");
@@ -198,17 +330,17 @@
 
         function checkAnswer(selected, correct) {
             if (selected === correct) {
-                feedbackElem.innerHTML = "✅ <span class='success'>إجابة صحيحة!</span>";
+                feedbackElem.innerHTML = "✅ <span class='success'>Correct answer!</span>";
             } else {
-                feedbackElem.innerHTML = "❌ <span class='wrong'>إجابة خاطئة!</span>";
+                feedbackElem.innerHTML = "❌ <span class='wrong'>Wrong answer!</span>";
             }
             setTimeout(() => {
-                feedbackElem.innerHTML = ""; // إخفاء الرسالة بعد ثانية
+                feedbackElem.innerHTML = ""; // Hide the message after 1 second
                 if (selected === correct) {
                     currentQuestion++;
                     loadQuestion();
                 }
-            }, 1000); // الرسالة تختفي بعد 1000 مللي ثانية (ثانية واحدة)
+            }, 1000); // The message disappears after 1000 milliseconds (1 second)
         }
 
         function showHint() {
