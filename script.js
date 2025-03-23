@@ -1,14 +1,31 @@
 const questions = [  
     {
         question: "What is the output of the following code?",
-        code: `#include <iostream>\nusing namespace std;\nint main() {\n    int arr[] = {1, 2, 3, 4, 5};\n    cout << arr[3];\n    return 0;\n}`,
+        code: `#include <iostream>
+using namespace std;
+
+int main() {
+  int arr[] = {1, 2, 3, 4, 5};
+  cout << arr[3];
+  return 0;
+}`,
         options: ["1", "2", "3", "4", "5"],
         correct: 3,
         hint: "Pay attention to the index being accessed in the array."
     },
     {
         question: "What is the error in the following code?",
-        code: `#include <iostream>\nusing namespace std;\nvoid func() {\n    cout << "Hello";\n}\nint main() {\n    func;\n    return 0;\n}`,
+        code: `#include <iostream>
+using namespace std;
+
+void func() {
+  cout << "Hello";
+}
+
+int main() {
+  func;
+  return 0;
+}`,
         options: [
             "func should be func().",
             "cout is not defined.",
@@ -21,7 +38,17 @@ const questions = [
     },
     {
         question: "What is the error in the following code?",
-        code: `#include <iostream>\nusing namespace std;\n\nvoid showMessage() {\n    cout << "Hello";\n}\n\nint main() {\n    showMessage();\n    return "Done";\n}`,
+        code: `#include <iostream>
+using namespace std;
+
+void showMessage() {
+  cout << "Hello";
+}
+
+int main() {
+  showMessage();
+  return "Done";
+}`,
         options: [
             "cout is not defined.",
             "void showMessage() should be int showMessage().",
@@ -34,28 +61,64 @@ const questions = [
     },
     {
         question: "What is the output of the following code?",
-        code: `#include <iostream>\nusing namespace std;\nint main() {\n    int a = 10, b = 3;\n    cout << a % b;\n    return 0;\n}`,
+        code: `#include <iostream>
+using namespace std;
+
+int main() {
+  int a = 10, b = 3;
+  cout << a % b;
+  return 0;
+}`,
         options: ["0", "1", "2", "3", "4"],
         correct: 1,
         hint: "Pay attention to the modulus operation."
     },
     {
         question: "Complete the code to create a function that prints 'Welcome'?",
-        code: `#include <iostream>\nusing namespace std;\n    welcome()\n    {\n    cout << "Welcome";\n    }`,
+        code: `#include <iostream>
+using namespace std;
+
+____ welcome() {
+  cout << "Welcome";
+}`,
         options: ["int", "string", "void", "char"],
         correct: 2,
         hint: "Pay attention to the function type that does not return a value."
     },
     {
         question: "What is the output of the following code?",
-        code: `#include <iostream>\nusing namespace std;\n\nvoid AKOUSH(int &x) {\n    x = 10;\n}\n\nint main() {\n    int a = 5;\n    AKOUSH(a);\n    cout << a;\n    return 0;\n}`,
+        code: `#include <iostream>
+using namespace std;
+
+void AKOUSH(int &x) {
+  x = 10;
+}
+
+int main() {
+  int a = 5;
+  AKOUSH(a);
+  cout << a;
+  return 0;
+}`,
         options: ["5", "10", "15", "20", "25"],
         correct: 1,
         hint: "Pay attention to how the variable is passed by reference."
     },
     {
         question: "What is the output of the following code?",
-        code: `#include <iostream>\nusing namespace std;\nint main() {\n    int arr[4] = {1, 2, 3, 4};\n    for (int i = 0; i < 4; i++) {\n    arr[i] = arr[(i + 1) % 4];\n    }\n    for (int i = 0; i < 4; i++) {\n    cout << arr[i] << " ";\n    }\n    return 0;\n}`,
+        code: `#include <iostream>
+using namespace std;
+
+int main() {
+  int arr[4] = {1, 2, 3, 4};
+  for (int i = 0; i < 4; i++) {
+    arr[i] = arr[(i + 1) % 4];
+  }
+  for (int i = 0; i < 4; i++) {
+    cout << arr[i] << " ";
+  }
+  return 0;
+}`,
         options: [
             "1 2 3 4",
             "4 1 2 3",
@@ -96,8 +159,8 @@ function startQuiz() {
     const mobile = document.getElementById("mobile").value.trim();
 
     const nameParts = fullName.split(" ");
-    if (nameParts.length !== 4) {
-        alert("Please enter your full quadruple name (e.g., First Second Third Fourth)!");
+    if (nameParts.length !== 3) {
+        alert("Please enter your full triple name (e.g., First Second Third)!");
         return;
     }
     if (!/^\d{10,15}$/.test(mobile)) {
@@ -201,7 +264,10 @@ function loadQuestion() {
     hintUsed = false;
     const q = questions[currentQuestion];
     questionElem.innerText = q.question;
-    codeSnippetElem.innerHTML = `<pre>${q.code}</pre>`;
+    
+    // عرض الكود كنص خام مع الحفاظ على التنسيق
+    codeSnippetElem.textContent = q.code;
+    
     hintElem.innerText = q.hint;
     hintElem.classList.add("hidden");
     optionsElem.innerHTML = "";
